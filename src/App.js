@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
+// Google Fonts link to include in public/index.html:
+// <link href=\"https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@600&display=swap\" rel=\"stylesheet\">
+
 export default function TrainerWebsite() {
   const [form, setForm] = useState({ name: '', email: '', message: '', date: '' });
   const [reviews] = useState([
@@ -14,55 +17,62 @@ export default function TrainerWebsite() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Thank you! Your booking request for ${selectedDate || 'your chosen date'} has been submitted.`);
-    setForm({ name: '', email: '', message: '', date: '' });
-    setSelectedDate('');
-  };
-
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}>
-      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+    <div style={{ fontFamily: 'Open Sans, sans-serif', background: '#f9f9f9', padding: '2rem', maxWidth: '900px', margin: '0 auto' }}>
+      <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ fontFamily: 'Poppins, sans-serif', fontSize: '2.8rem', fontWeight: '600', color: '#ff6f61', marginBottom: '1.5rem', textAlign: 'center' }}>
         Welcome to Pin’s Personal Training
       </motion.h1>
 
-      <section style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem' }}>Book a Session</h2>
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1rem' }}>
-          <input placeholder="Your Name" name="name" value={form.name} onChange={handleChange} required />
-          <input type="email" placeholder="Your Email" name="email" value={form.email} onChange={handleChange} required />
-          <textarea placeholder="Tell us what you’re looking for (online or in-person)" name="message" value={form.message} onChange={handleChange} required />
-          <input type="date" name="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
-          <button type="submit" style={{ padding: '0.5rem 1rem' }}>Submit Booking Request</button>
+      {/* About Me */}
+      <section style={{ marginBottom: '2rem', background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem', color: '#333' }}>About Pin</h2>
+        <p>Hi, I’m Pin! I’m a certified personal trainer passionate about helping people achieve their fitness goals — whether online or in person. My approach focuses on making fitness fun, approachable, and personalized for each client. Let’s move together and make your health journey exciting!</p>
+      </section>
+
+      {/* Booking Form */}
+      <section style={{ marginBottom: '2rem', background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem', color: '#333' }}>Book a Session</h2>
+        <form action=\"https://formspree.io/f/yourformid\" method=\"POST\" style={{ display: 'grid', gap: '1rem' }}>
+          <input placeholder=\"Your Name\" name=\"name\" value={form.name} onChange={handleChange} required style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc' }} />
+          <input type=\"email\" placeholder=\"Your Email\" name=\"email\" value={form.email} onChange={handleChange} required style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc' }} />
+          <textarea placeholder=\"Tell us what you’re looking for (online or in-person)\" name=\"message\" value={form.message} onChange={handleChange} required style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc' }} />
+          <input type=\"date\" name=\"date\" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc' }} />
+          <button type=\"submit\" style={{ padding: '0.75rem 1rem', background: '#ff6f61', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer' }}>
+            Submit Booking Request
+          </button>
         </form>
       </section>
 
-      <section style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem' }}>What Clients Are Saying</h2>
+      {/* Reviews */}
+      <section style={{ marginBottom: '2rem', background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem', color: '#333' }}>What Clients Are Saying</h2>
         <div style={{ display: 'grid', gap: '1rem' }}>
           {reviews.map((review, index) => (
-            <div key={index} style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-              <p style={{ fontWeight: '600' }}>{review.name}</p>
-              <p>“{review.text}”</p>
+            <div key={index} style={{ padding: '1rem', border: '1px solid #eee', borderRadius: '8px', background: '#fafafa' }}>
+              <p style={{ fontWeight: '600', marginBottom: '0.5rem' }}>{review.name}</p>
+              <p style={{ fontStyle: 'italic' }}>“{review.text}”</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem' }}>Workout Gallery</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
-          <img src="/workout1.jpg" alt="Workout 1" style={{ width: '100%', borderRadius: '8px' }} />
-          <img src="/workout2.jpg" alt="Workout 2" style={{ width: '100%', borderRadius: '8px' }} />
-          <img src="/workout3.jpg" alt="Workout 3" style={{ width: '100%', borderRadius: '8px' }} />
+      {/* Workout Gallery */}
+      <section style={{ marginBottom: '2rem', background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem', color: '#333' }}>Workout Gallery</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+          <img src=\"/workout1.jpg\" alt=\"Workout 1\" style={{ width: '100%', borderRadius: '12px' }} />
+          <img src=\"/workout2.jpg\" alt=\"Workout 2\" style={{ width: '100%', borderRadius: '12px' }} />
+          <img src=\"/workout3.jpg\" alt=\"Workout 3\" style={{ width: '100%', borderRadius: '12px' }} />
         </div>
       </section>
 
-      <section>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem' }}>Make a Payment</h2>
+      {/* Payment Section */}
+      <section style={{ background: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '1.8rem', fontWeight: '600', marginBottom: '1rem', color: '#333' }}>Make a Payment</h2>
         <p style={{ marginBottom: '1rem' }}>Secure your booking by making a payment below.</p>
-        <button onClick={() => alert('Redirecting to payment gateway...')} style={{ padding: '0.5rem 1rem' }}>Pay Now</button>
+        <button onClick={() => window.location.href='https://buy.stripe.com/yourpaymentlink'} style={{ padding: '0.75rem 1.5rem', background: '#28a745', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer' }}>
+          Pay Now
+        </button>
       </section>
     </div>
   );
